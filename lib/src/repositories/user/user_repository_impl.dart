@@ -16,29 +16,27 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Future<Either<AuthException, String>> login(
-    String email,
-    String password,
-  ) async {
+      String email, String password) async {
     try {
-      final Response(:data) = await restClient.unAuth.post(
-        '/auth',
-        data: {
-          'email': email,
-          'password': password,
-        },
-      );
+      final Response(:data) = await restClient.unAuth.post('/auth', data: {
+        'email': email,
+        'password': password,
+      });
 
       return Success(data['access_token']);
     } on DioException catch (e, s) {
       if (e.response != null) {
-        final Response(:statusCode) = e.response!;
+        final statusCode = e.response!.statusCode;
         if (statusCode == HttpStatus.forbidden) {
           log('Login ou senha inválidos', error: e, stackTrace: s);
           return Failure(AuthUnauthorizedException());
         }
       }
       log('Erro ao realizar login', error: e, stackTrace: s);
-      return Failure(AuthError(message: 'Erro ao realizar o login'));
+      return Failure(AuthError(message: 'Erro ao realizar login'));
+    } catch (e, s) {
+      log('Erro genérico ao realizar login', error: e, stackTrace: s);
+      return Failure(AuthError(message: 'Erro ao realizar login'));
     }
   }
 }
