@@ -1,3 +1,4 @@
+import 'package:barbershop/src/core/ui/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
@@ -55,7 +56,26 @@ class LoginPage extends StatelessWidget {
                         const SizedBox(
                           height: 16,
                         ),
-                        const Text('Esqueceu a senha ?')
+                        const Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Esqueceu a senha ?',
+                            style: TextStyle(
+                              color: ColorsConstants.brow,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 24,
+                        ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: const Size.fromHeight(58)
+                          ),
+                          onPressed: () {},
+                          child: const Text('Acessar'),
+                        )
                       ],
                     ),
                     const Align(
