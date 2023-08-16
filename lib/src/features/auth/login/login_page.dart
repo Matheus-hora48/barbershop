@@ -1,10 +1,12 @@
 import 'package:barbershop/src/core/ui/constants/constants.dart';
+import 'package:barbershop/src/features/auth/login/login_state.dart';
 import 'package:barbershop/src/features/auth/login/login_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:validatorless/validatorless.dart';
 
 import '../../../core/ui/helpers/form_helpers.dart';
+import '../../../core/ui/helpers/messages.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -27,7 +29,22 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final loginVm = ref.watch(loginVmProvider.notifier);
+    final LoginVm(:login) = ref.watch(loginVmProvider.notifier);
+
+    ref.listen(loginVmProvider, (_, state) {
+      switch (state) {
+        case LoginState(status: LoginStateStatus.initial):
+          break;
+        case LoginState(status: LoginStateStatus.error, :final errorMessage?):
+          Messages.showError(errorMessage, context);
+        case LoginState(status: LoginStateStatus.error):
+          Messages.showError('Erro ao realizar login', context);
+        case LoginState(status: LoginStateStatus.admLogin):
+          break;
+        case LoginState(status: LoginStateStatus.employeeLogin):
+          break;
+      }
+    });
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -113,7 +130,17 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 minimumSize: const Size.fromHeight(58)),
-                            onPressed: () {},
+                            onPressed: () {
+                              switch (formKey.currentState?.validate()) {
+                                case (false || null):
+                                  Messages.showError(
+                                    'Campos inválidos',
+                                    context,
+                                  );
+                                case true:
+                                  login(emailEC.text, passwordEC.text);
+                              }
+                            },
                             child: const Text('Acessar'),
                           )
                         ],
