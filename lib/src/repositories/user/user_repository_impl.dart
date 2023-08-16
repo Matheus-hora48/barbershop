@@ -2,9 +2,11 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:barbershop/src/core/exceptions/auth_exception.dart';
+import 'package:barbershop/src/core/exceptions/repository_exception.dart';
 
 import 'package:barbershop/src/core/fp/either.dart';
 import 'package:barbershop/src/core/restClient/rest_client.dart';
+import 'package:barbershop/src/model/user_model.dart';
 import 'package:dio/dio.dart';
 
 import 'user_repository.dart';
@@ -35,5 +37,10 @@ class UserRepositoryImpl implements UserRepository {
       log('Erro ao realizar o login', error: e, stackTrace: s);
       return Failure(AuthError(message: 'Erro ao realizar o login'));
     }
+  }
+
+  @override
+  Future<Either<RepositoryException, UserModel>> me() {
+    throw UnimplementedError();
   }
 }
