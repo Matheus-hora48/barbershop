@@ -6,12 +6,10 @@ part 'login_vm.g.dart';
 
 @riverpod
 class LoginVm extends _$LoginVm {
-
   @override
   LoginState build() => LoginState.initial();
 
   Future<void> login(String email, String password) async {
     final loginService = ref.watch(userLoginServiceProvider);
-    final result = await loginService.
   }
 }

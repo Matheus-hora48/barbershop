@@ -1,4 +1,4 @@
-abstract class Either<E extends Exception, S> {}
+sealed class Either<E extends Exception, S> {}
 
 class Failure<E extends Exception, S> extends Either<E, S> {
   final E exception;

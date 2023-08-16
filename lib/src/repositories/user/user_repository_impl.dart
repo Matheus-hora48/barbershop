@@ -26,17 +26,14 @@ class UserRepositoryImpl implements UserRepository {
       return Success(data['access_token']);
     } on DioException catch (e, s) {
       if (e.response != null) {
-        final statusCode = e.response!.statusCode;
+        final Response(:statusCode) = e.response!;
         if (statusCode == HttpStatus.forbidden) {
           log('Login ou senha inválidos', error: e, stackTrace: s);
           return Failure(AuthUnauthorizedException());
         }
       }
-      log('Erro ao realizar login', error: e, stackTrace: s);
-      return Failure(AuthError(message: 'Erro ao realizar login'));
-    } catch (e, s) {
-      log('Erro genérico ao realizar login', error: e, stackTrace: s);
-      return Failure(AuthError(message: 'Erro ao realizar login'));
+      log('Erro ao realizar o login', error: e, stackTrace: s);
+      return Failure(AuthError(message: 'Erro ao realizar o login'));
     }
   }
 }
