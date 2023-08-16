@@ -40,7 +40,18 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<Either<RepositoryException, UserModel>> me() {
-    throw UnimplementedError();
+  Future<Either<RepositoryException, UserModel>> me() async {
+    try {
+      final Response(:data) = await restClient.get('/me');
+      return Success(UserModel.fromMap(data));
+    } on DioException catch (e, s) {
+      log('Erro ao buscar usuário logado', error: e, stackTrace: s);
+      return Failure(
+        RepositoryException(message: 'Erro ao buscar usuário logado'),
+      );
+    } on ArgumentError catch (e, s){
+      log('Invalid Json', error: e, stackTrace: s);
+      return Failure(RepositoryException(message: e.message));
+    }
   }
 }
