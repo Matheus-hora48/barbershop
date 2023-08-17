@@ -6,5 +6,6 @@ part 'user_register_provider.g.dart';
 
 UserRegisterAdmService userRegisterAdmService(UserRegisterAdmServiceRef ref) =>
     UserRegisterAdmServiceImpl(
-        userRepository: ref.watch(userRepositoryProvider),
-        userLoginService: ref.watch(userLoginServiceProvider));
+      userRepository: ref.watch(userRepositoryProvider),
+      userLoginService: ref.watch(userLoginServiceProvider),
+    );
