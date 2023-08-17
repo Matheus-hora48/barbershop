@@ -44,11 +44,11 @@ class UserRegisterPage extends StatelessWidget {
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  minimumSize: Size.fromHeight(56)
-                  
+                  minimumSize: const Size.fromHeight(56)
+
                 ),
                 onPressed: () {},
-                child: Text('Criar conta'),
+                child: const Text('Criar conta'),
               )
             ],
           ),
