@@ -3,9 +3,9 @@ import 'package:barbershop/src/core/global/barbershop_nav_global_key.dart';
 import 'package:barbershop/src/core/ui/theme/barbershop_theme.dart';
 import 'package:barbershop/src/core/ui/widgets/barbershop_loader.dart';
 import 'package:barbershop/src/features/auth/login/login_page.dart';
-import 'package:barbershop/src/features/register/user_register_page.dart';
 import 'package:flutter/material.dart';
 
+import 'features/register/user/user_register_page.dart';
 import 'features/splash/splash_page.dart';
 
 class BarbershopApp extends StatelessWidget {

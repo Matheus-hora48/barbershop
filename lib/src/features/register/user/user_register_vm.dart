@@ -1,6 +1,7 @@
 import 'package:asyncstate/asyncstate.dart';
 import 'package:barbershop/src/core/fp/either.dart';
 import 'package:barbershop/src/core/providers/application_providers.dart';
+import 'package:barbershop/src/features/register/user/user_register_provider.dart';
 import 'package:barbershop/src/services/user_register/user_register_adm_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -22,7 +23,7 @@ class UserRegisterVm extends _$UserRegisterVm {
     required String email,
     required String password,
   }) async {
-    final userRegisterService = ref.watch(userRegisterAdmServiceRef);
+    final userRegisterService = ref.watch(userRegisterAdmServiceProvider);
 
     final userDTO = (
       name: name,
@@ -31,7 +32,7 @@ class UserRegisterVm extends _$UserRegisterVm {
     );
 
     final registerResult =
-        await UserRegisterAdmService.execute(userDTO).asyncLoader();
+        await userRegisterService.execute(userDTO).asyncLoader();
 
     switch (registerResult) {
       case Success():
