@@ -1,4 +1,5 @@
 import 'package:barbershop/src/core/ui/helpers/form_helpers.dart';
+import 'package:barbershop/src/features/register/barbershop/barbershop_register_state.dart';
 import 'package:barbershop/src/features/register/barbershop/barbershop_register_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -34,6 +35,20 @@ class _BarbershopRegisterPageState
     final barbershopRegisterVm = ref.watch(
       barbershopRegisterVmProvider.notifier,
     );
+
+    ref.listen(barbershopRegisterVmProvider, (_, state) {
+      switch (state.status) {
+        case BarberShopRegisterStateStatus.initial:
+          break;
+        case BarberShopRegisterStateStatus.error:
+          Messages.showError(
+            'Desculpe ocorreu um erro ao registrar a barbearia',
+            context,
+          );
+        case BarberShopRegisterStateStatus.success:
+          Navigator.of(context).pushNamedAndRemoveUntil('/home/adm', (route) => false);
+      }
+    });
 
     return Scaffold(
       appBar: AppBar(

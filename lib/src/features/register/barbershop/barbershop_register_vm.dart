@@ -1,3 +1,4 @@
+import 'package:barbershop/src/core/fp/either.dart';
 import 'package:barbershop/src/core/providers/application_providers.dart';
 import 'package:barbershop/src/features/register/barbershop/barbershop_register_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -35,13 +36,23 @@ class BarbershopRegisterVm extends _$BarbershopRegisterVm {
 
   Future<void> register(String name, String email) async {
     final repository = ref.watch(barbershopRepositoryProvider);
+    final BarbershopRegisterState(:openingDays, :openingHours) = state;
 
     final dto = (
-      name: name,
       email: email,
-      openingDays: '',
-      openingHours: ''
+      name: name,
+      openingDays: openingDays,
+      openingHours: openingHours,
     );
-    
+
+    final registerResult = await repository.save(dto);
+
+    switch (registerResult) {
+      case Success():
+        ref.invalidate(getMyBarbershopProvider);
+        state = state.copyWith(status: BarberShopRegisterStateStatus.success);
+      case Failure():
+        state = state.copyWith(status: BarberShopRegisterStateStatus.error);
+    }
   }
 }
