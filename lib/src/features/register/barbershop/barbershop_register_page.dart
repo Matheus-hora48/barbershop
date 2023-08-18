@@ -36,13 +36,20 @@ class BarbershopRegisterPage extends StatelessWidget {
               const SizedBox(
                 height: 24,
               ),
-              const WeekdaysPanel(),
+              WeekdaysPanel(
+                onDayPressed: (value) {
+                  print(value);
+                },
+              ),
               const SizedBox(
                 height: 24,
               ),
-              const HoursPanel(
+              HoursPanel(
                 startTime: 6,
                 endTime: 23,
+                onHoursPressed: (int value) {
+                  print(value);
+                },
               ),
               const SizedBox(
                 height: 24,
