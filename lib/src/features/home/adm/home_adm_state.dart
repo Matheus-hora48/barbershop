@@ -4,11 +4,11 @@ enum HomeAdmStateStatus { loaded, error }
 
 class HomeAdmState {
   final HomeAdmStateStatus status;
-  final List<UserModel> employee;
+  final List<UserModel> employees;
   
   HomeAdmState({
     required this.status,
-    required this.employee,
+    required this.employees,
   });
 
   HomeAdmState copyWith({
@@ -17,7 +17,7 @@ class HomeAdmState {
   }) {
     return HomeAdmState(
       status: status ?? this.status,
-      employee: employee ?? this.employee,
+      employees: employee ?? this.employees,
     );
   }
 }
