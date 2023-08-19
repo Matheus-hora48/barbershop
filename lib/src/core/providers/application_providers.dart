@@ -1,11 +1,14 @@
 import 'package:barbershop/src/core/fp/either.dart';
+import 'package:barbershop/src/core/global/barbershop_nav_global_key.dart';
 import 'package:barbershop/src/core/restClient/rest_client.dart';
 import 'package:barbershop/src/repositories/barbershop/barbershop_repository.dart';
 import 'package:barbershop/src/repositories/barbershop/barbershop_repository_impl.dart';
 import 'package:barbershop/src/repositories/user/user_repository.dart';
 import 'package:barbershop/src/repositories/user/user_repository_impl.dart';
 import 'package:barbershop/src/services/users_login/user_login_service.dart';
+import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../model/barbershop_model.dart';
 import '../../model/user_model.dart';
@@ -43,7 +46,7 @@ BarbershopRepository barbershopRepository(BarbershopRepositoryRef ref) =>
 @Riverpod(keepAlive: true)
 Future<BarbershopModel> getMyBarbershop(GetMyBarbershopRef ref) async {
   final userModel = await ref.watch(getMeProvider.future);
-   
+
   final barbershopRepository = ref.watch(barbershopRepositoryProvider);
   final result = await barbershopRepository.getMyBarbershop(userModel);
 
@@ -51,4 +54,19 @@ Future<BarbershopModel> getMyBarbershop(GetMyBarbershopRef ref) async {
     Success(value: final barbershop) => barbershop,
     Failure(:final exception) => throw exception,
   };
+}
+
+@riverpod
+Future<void> logout(LogoutRef ref) async {
+  final sp = await SharedPreferences.getInstance();
+  sp.clear();
+
+  ref.invalidate(getMeProvider);
+  ref.invalidate(getMyBarbershopProvider);
+
+  Navigator.of(BarbershopNavGlobalKey.instance.navKey.currentContext!)
+      .pushNamedAndRemoveUntil(
+    'auth/login',
+    (route) => false,
+  );
 }
