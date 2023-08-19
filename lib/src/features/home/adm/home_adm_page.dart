@@ -40,7 +40,9 @@ class HomeAdmPage extends ConsumerWidget {
               ),
               SliverList(
                 delegate: SliverChildBuilderDelegate(
-                  (context, index) => const HomeEmployeeTitle(),
+                  (context, index) => HomeEmployeeTitle(
+                    employee: data.employees[index],
+                  ),
                   childCount: data.employees.length,
                 ),
               )
@@ -53,7 +55,7 @@ class HomeAdmPage extends ConsumerWidget {
             child: Text('Erro ao carregar a página'),
           );
         },
-        loading: (){
+        loading: () {
           return const BarbershopLoader();
         },
       ),
