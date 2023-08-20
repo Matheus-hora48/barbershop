@@ -48,7 +48,8 @@ class _EmployeeRegisterPageState extends ConsumerState<EmployeeRegisterPage> {
         case EmployeeRegisterStateStatus.initial:
           break;
         case EmployeeRegisterStateStatus.success:
-          Messages.showError('Colaborador cadastrado com sucesso', context);
+          Messages.showSuccess('Colaborador cadastrado com sucesso', context);
+          Navigator.pop(context);
         case EmployeeRegisterStateStatus.error:
           Messages.showError('Erro ao registrar colaborador', context);
       }
@@ -103,8 +104,9 @@ class _EmployeeRegisterPageState extends ConsumerState<EmployeeRegisterPage> {
                             ),
                             TextFormField(
                               controller: nameEC,
-                              validator:
-                                  Validatorless.required('Nome obrigatório'),
+                              validator: registerADM
+                                  ? null
+                                  : Validatorless.required('Nome obrigatório'),
                               decoration: const InputDecoration(
                                 label: Text('Nome'),
                               ),
@@ -114,10 +116,13 @@ class _EmployeeRegisterPageState extends ConsumerState<EmployeeRegisterPage> {
                             ),
                             TextFormField(
                               controller: emailEC,
-                              validator: Validatorless.multiple([
-                                Validatorless.required('E-mail obrigatório'),
-                                Validatorless.email('E-mail inválido')
-                              ]),
+                              validator: registerADM
+                                  ? null
+                                  : Validatorless.multiple([
+                                      Validatorless.required(
+                                          'E-mail obrigatório'),
+                                      Validatorless.email('E-mail inválido')
+                                    ]),
                               decoration: const InputDecoration(
                                 label: Text('E-mail'),
                               ),
@@ -127,13 +132,16 @@ class _EmployeeRegisterPageState extends ConsumerState<EmployeeRegisterPage> {
                             ),
                             TextFormField(
                               controller: passwordEC,
-                              validator: Validatorless.multiple([
-                                Validatorless.required('Senha obrigatória'),
-                                Validatorless.min(
-                                  6,
-                                  'Senha deve conter pelo menos 6 caracteres',
-                                ),
-                              ]),
+                              validator: registerADM
+                                  ? null
+                                  : Validatorless.multiple([
+                                      Validatorless.required(
+                                          'Senha obrigatória'),
+                                      Validatorless.min(
+                                        6,
+                                        'Senha deve conter pelo menos 6 caracteres',
+                                      ),
+                                    ]),
                               decoration: const InputDecoration(
                                 label: Text('Senha'),
                               ),

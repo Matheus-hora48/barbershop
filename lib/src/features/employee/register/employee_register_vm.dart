@@ -85,5 +85,7 @@ class EmployeeRegisterVm extends _$EmployeeRegisterVm {
       case Failure():
         state = state.copyWith(status: EmployeeRegisterStateStatus.error);
     }
+
+    asyncLoaderHandler.close();
   }
 }
