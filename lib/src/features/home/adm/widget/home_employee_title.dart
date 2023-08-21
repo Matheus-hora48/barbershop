@@ -44,7 +44,7 @@ class HomeEmployeeTitle extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                 Text(
+                Text(
                   employee.name,
                   style: const TextStyle(
                     fontSize: 16,
@@ -59,7 +59,8 @@ class HomeEmployeeTitle extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 12),
                       ),
                       onPressed: () {
-                        Navigator.of(context).pushNamed('/schedule', arguments: employee);
+                        Navigator.of(context)
+                            .pushNamed('/schedule', arguments: employee);
                       },
                       child: const Text('Agendar'),
                     ),
@@ -67,7 +68,10 @@ class HomeEmployeeTitle extends StatelessWidget {
                       style: OutlinedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(horizontal: 12),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pushNamed('/employee/schedule',
+                            arguments: employee);
+                      },
                       child: const Text('Ver agenda'),
                     ),
                     const Icon(
