@@ -1,6 +1,8 @@
 import 'package:barbershop/src/features/schedule/schedule_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../model/user_model.dart';
+
 part 'schedule_vm.g.dart';
 
 @riverpod
@@ -23,4 +25,9 @@ class ScheduleVm extends _$ScheduleVm {
   void dateSelect(DateTime date) {
     state = state.copyWith(scheduleDate: () => date);
   }
+
+  Future<void> register({
+    required UserModel userModel,
+    required String clientName,
+  }) async {}
 }
