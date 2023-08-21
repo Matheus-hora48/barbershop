@@ -3,7 +3,9 @@ import 'package:barbershop/src/core/ui/constants/constants.dart';
 import 'package:barbershop/src/core/ui/helpers/form_helpers.dart';
 import 'package:barbershop/src/core/ui/widgets/avatar_widget.dart';
 import 'package:barbershop/src/core/ui/widgets/hours_panel.dart';
+import 'package:barbershop/src/features/schedule/schedule_state.dart';
 import 'package:barbershop/src/features/schedule/schedule_vm.dart';
+import 'package:barbershop/src/model/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -36,7 +38,32 @@ class _SchedulePageState extends ConsumerState<SchedulePage> {
 
   @override
   Widget build(BuildContext context) {
+    final userModel = ModalRoute.of(context)!.settings.arguments as UserModel;
+
     final scheduleVM = ref.watch(scheduleVmProvider.notifier);
+
+    final employeeData = switch (userModel) {
+      UserModelADM(:final workDays, :final workHours) => (
+          workDays: workDays!,
+          workHours: workHours!,
+        ),
+      UserModelEmployee(:final workDays, :final workHours) => (
+          workDays: workDays,
+          workHours: workHours,
+        )
+    };
+
+    ref.listen(scheduleVmProvider.select((state) => state.status), (_, status) {
+      switch (status) {
+        case ScheduleStateStatus.initial:
+          break;
+        case ScheduleStateStatus.success:
+          Messages.showSuccess('Cliente agendado com sucesso', context);
+          Navigator.pop(context);
+        case ScheduleStateStatus.error:
+          Messages.showError('Erro ao registrar agendamento', context);
+      }
+    });
 
     return Scaffold(
       appBar: AppBar(
@@ -54,9 +81,9 @@ class _SchedulePageState extends ConsumerState<SchedulePage> {
                   const SizedBox(
                     height: 24,
                   ),
-                  const Text(
-                    'Nome e sobrenome',
-                    style: TextStyle(
+                  Text(
+                    userModel.name,
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w500,
                     ),
@@ -118,6 +145,7 @@ class _SchedulePageState extends ConsumerState<SchedulePage> {
                               showCalendar = true;
                             });
                           },
+                          workDays: employeeData.workDays,
                         ),
                       ],
                     ),
@@ -129,6 +157,7 @@ class _SchedulePageState extends ConsumerState<SchedulePage> {
                     startTime: 6,
                     endTime: 23,
                     onHoursPressed: scheduleVM.hourSelect,
+                    enabledTimes: employeeData.workHours,
                   ),
                   const SizedBox(
                     height: 24,
@@ -142,13 +171,20 @@ class _SchedulePageState extends ConsumerState<SchedulePage> {
                         case null || false:
                           Messages.showError('Dados incompletos', context);
                         case true:
-                          final hourSelected = ref.watch(scheduleVmProvider
-                              .select((state) => state.scheduleHour != null));
+                          final hourSelected =
+                              ref.watch(scheduleVmProvider.select(
+                            (state) => state.scheduleHour != null,
+                          ));
                           if (hourSelected) {
+                            scheduleVM.register(
+                              userModel: userModel,
+                              clientName: clientEC.text,
+                            );
                           } else {
                             Messages.showError(
-                                'Por favor selecione um horário de atendimento',
-                                context);
+                              'Por favor selecione um horário de atendimento',
+                              context,
+                            );
                           }
                       }
                     },
