@@ -1,4 +1,8 @@
+import 'package:asyncstate/asyncstate.dart';
+import 'package:barbershop/src/core/fp/either.dart';
+import 'package:barbershop/src/core/providers/application_providers.dart';
 import 'package:barbershop/src/features/schedule/schedule_state.dart';
+import 'package:barbershop/src/model/barbershop_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../model/user_model.dart';
@@ -29,5 +33,33 @@ class ScheduleVm extends _$ScheduleVm {
   Future<void> register({
     required UserModel userModel,
     required String clientName,
-  }) async {}
+  }) async {
+    final asyncLoaderHandler = AsyncLoaderHandler()..start();
+
+    final ScheduleState(:scheduleDate, :scheduleHour) = state;
+    final scheduleRepository = ref.read(scheduleRepositoryProvider);
+
+    final BarbershopModel(id: barbershopId) = await ref.watch(
+      getMyBarbershopProvider.future,
+    );
+
+    final dto = (
+      barbershopId: barbershopId,
+      userId: userModel.id,
+      clientName: clientName,
+      date: scheduleDate!,
+      time: scheduleHour!,
+    );
+
+    final scheduleResult = await scheduleRepository.scheduleClient(dto);
+
+    switch (scheduleResult) {
+      case Success():
+        state = state.copyWith(status: ScheduleStateStatus.success);
+      case Failure():
+        state = state.copyWith(status: ScheduleStateStatus.error);
+    }
+
+    asyncLoaderHandler.close();
+  }
 }

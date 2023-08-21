@@ -3,21 +3,23 @@ import 'package:barbershop/src/core/ui/constants/constants.dart';
 import 'package:barbershop/src/core/ui/helpers/form_helpers.dart';
 import 'package:barbershop/src/core/ui/widgets/avatar_widget.dart';
 import 'package:barbershop/src/core/ui/widgets/hours_panel.dart';
+import 'package:barbershop/src/features/schedule/schedule_vm.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:validatorless/validatorless.dart';
 
 import '../../core/ui/helpers/messages.dart';
 import 'widgets/schedule_calendar.dart';
 
-class SchedulePage extends StatefulWidget {
+class SchedulePage extends ConsumerStatefulWidget {
   const SchedulePage({super.key});
 
   @override
-  State<SchedulePage> createState() => _SchedulePageState();
+  ConsumerState<SchedulePage> createState() => _SchedulePageState();
 }
 
-class _SchedulePageState extends State<SchedulePage> {
+class _SchedulePageState extends ConsumerState<SchedulePage> {
   var dateFormat = DateFormat('dd/MM/yyyy');
   var showCalendar = false;
 
@@ -34,6 +36,8 @@ class _SchedulePageState extends State<SchedulePage> {
 
   @override
   Widget build(BuildContext context) {
+    final scheduleVM = ref.watch(scheduleVmProvider.notifier);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Agendar cliente'),
@@ -104,13 +108,13 @@ class _SchedulePageState extends State<SchedulePage> {
                         ScheduleCalendar(
                           cancelPressed: () {
                             setState(() {
-
                               showCalendar = true;
                             });
                           },
                           okPressed: (DateTime value) {
                             setState(() {
                               dateEC.text = dateFormat.format(value);
+                              scheduleVM.dateSelect(value);
                               showCalendar = true;
                             });
                           },
@@ -124,7 +128,7 @@ class _SchedulePageState extends State<SchedulePage> {
                   HoursPanel.singleSelection(
                     startTime: 6,
                     endTime: 23,
-                    onHoursPressed: (hour) {},
+                    onHoursPressed: scheduleVM.hourSelect,
                   ),
                   const SizedBox(
                     height: 24,
@@ -134,10 +138,18 @@ class _SchedulePageState extends State<SchedulePage> {
                       minimumSize: const Size.fromHeight(56),
                     ),
                     onPressed: () {
-                      switch(formKey.currentState?.validate()){
+                      switch (formKey.currentState?.validate()) {
                         case null || false:
                           Messages.showError('Dados incompletos', context);
                         case true:
+                          final hourSelected = ref.watch(scheduleVmProvider
+                              .select((state) => state.scheduleHour != null));
+                          if (hourSelected) {
+                          } else {
+                            Messages.showError(
+                                'Por favor selecione um horário de atendimento',
+                                context);
+                          }
                       }
                     },
                     child: const Text('Agendar'),
