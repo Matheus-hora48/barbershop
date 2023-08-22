@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:barbershop/src/core/ui/constants/constants.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import 'package:barbershop/src/model/schedule_model.dart';
@@ -23,10 +24,10 @@ class AppointmentDs extends CalendarDataSource {
       final endTime = DateTime(year, month, day, hour + 1, 0, 0);
 
       return Appointment(
-        startTime: DateTime.now(),
-        endTime: DateTime.now().add(
-          const Duration(hours: 1),
-        ),
+        color: ColorsConstants.brow,
+        startTime: startTime,
+        endTime: endTime,
+        subject: clientName,
       );
     }).toList();
   }
