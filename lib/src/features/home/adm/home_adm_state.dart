@@ -17,7 +17,7 @@ class HomeAdmState {
   }) {
     return HomeAdmState(
       status: status ?? this.status,
-      employees: employee ?? this.employees,
+      employees: employee ?? employees,
     );
   }
 }
