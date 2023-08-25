@@ -1,16 +1,59 @@
-# barbershop
+## Descrição do Projeto
 
-A new Flutter project.
+O objetivo do projeto é criar um aplicativo de agendamento de horários em barbearias, proporcionando uma maneira conveniente para os clientes agendarem seus cortes de cabelo.
 
-## Getting Started
+## Screens
 
-This project is a starting point for a Flutter application.
+## Visão do Administrador
 
-A few resources to get you started if this is your first Flutter project:
+<div align="center" style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: center; align-content: center; gap: 10px;">
+    <img src="screens/adm_01.png" width="200px" height="400px">
+    <img src="screens/adm_02.png" width="200px" height="400px">
+    <img src="screens/adm_03.png" width="200px" height="400px">
+    <img src="screens/adm_04.png" width="200px" height="400px">
+    <img src="screens/adm_05.png" width="200px" height="400px">
+    <img src="screens/adm_06.png" width="200px" height="400px">
+    <img src="screens/adm_07.png" width="200px" height="400px">
+    <img src="screens/adm_08.png" width="200px" height="400px">
+    <img src="screens/adm_09.png" width="200px" height="400px">
+</div>
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Visão do Colaborador
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<div align="center" style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: center; align-content: center; gap: 10px;">
+    <img src="screens/colab_01.png" width="200px" height="400px">
+    <img src="screens/colab_03.png" width="200px" height="400px">
+    <img src="screens/colab_04.png" width="200px" height="400px">
+    <img src="screens/colab_05.png" width="200px" height="400px">
+</div>
+
+## Como rodar a aplicação
+
+### Pré-requisitos
+
+- [Dart](https://dart.dev/get-dart)
+- [Flutter](https://flutter.dev/docs/get-started/install)
+- [Android Studio](https://developer.android.com/studio)
+- [VSCode](https://code.visualstudio.com/)
+- [Git](https://git-scm.com/)
+
+### Rodando a aplicação
+
+```bash
+# Clone este repositório
+$ git clone https://github.com/rafaelmachadobr/dw11-barbershop.git
+
+# Acesse a pasta do projeto no terminal/cmd
+$ cd dw11-barbershop
+
+# Instale as dependências
+$ flutter pub get
+
+# Execute a aplicação em modo de desenvolvimento
+$ flutter run
+```
+
+### Tecnologias utilizadas:
+
+- Dart
+- Flutter
