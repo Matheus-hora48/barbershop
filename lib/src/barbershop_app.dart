@@ -5,6 +5,7 @@ import 'package:barbershop/src/core/ui/widgets/barbershop_loader.dart';
 import 'package:barbershop/src/features/auth/login/login_page.dart';
 import 'package:barbershop/src/features/schedule/schedule_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'features/employee/register/employee_register_page.dart';
 import 'features/employee/schedule/employee_schedule_page.dart';
@@ -38,6 +39,13 @@ class BarbershopApp extends StatelessWidget {
             '/employee/schedule': (_) => const EmployeeSchedulePage(),
             'schedule': (_) => const SchedulePage()
           },
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale('pt', 'BR')],
+          locale: const Locale('pt', 'BR'),
         );
       },
     );
